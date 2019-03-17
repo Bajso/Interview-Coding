@@ -124,3 +124,57 @@ def max_product(arr):
     return first * second * third
 
 print(max_product([10, 3, 5, 6, 20]))
+
+
+# 6.) Check if two strings are anagrams
+
+# 6.1) Easiest way is to sort both and compare them
+# This is O(nlogn)
+def are_anagrams(s1, s2):
+    if (sorted(s1) == sorted(s2)):
+        return True
+    return False
+
+print(are_anagrams('silent', 'listen'))
+print(are_anagrams('silent', 'cat'))
+
+# 6.2) Improvement: Count the number of occurances of each character
+
+# 1. Create a hashmap (a dictionary) where key is character and value is count
+# 2. Iterate s1, populate the hashmap and increment the count for repeated characters
+# 3. Iterate s2, for each character check if it is present in the hashmap, if not stop. 
+# If character is present then decrement count. Also remove element from the hashmap if count is 0
+# 4. If hashmap is empty the strings are anagrams, else they are not
+
+def are_anagrams_opt(s1, s2):
+    char_dict = dict()
+
+    # Populate the dictionary
+    for c in s1:
+        if c in char_dict.keys():
+            # Update count
+            count = char_dict.get(c)
+            char_dict[c] = count + 1
+        else:
+            char_dict[c] = 1
+    
+    # Check against the other string
+    for c in s2:
+        if c not in char_dict.keys():
+            return False
+        elif c in char_dict.keys():
+            # Update count
+            count = char_dict.get(c)
+            # If 1, then next count is 0 and we can remove the element
+            if count == 1:
+                del char_dict[c]
+            else:
+                char_dict[c] = count - 1
+
+    # Check whether dictionary is empty
+    if bool(char_dict):
+        return False
+    return True
+
+print(are_anagrams_opt('silent', 'listen'))
+print(are_anagrams_opt('silent', 'cat'))
