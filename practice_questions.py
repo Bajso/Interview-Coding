@@ -138,6 +138,7 @@ def are_anagrams(s1, s2):
 print(are_anagrams('silent', 'listen'))
 print(are_anagrams('silent', 'cat'))
 
+
 # 6.2) Improvement: Count the number of occurances of each character
 
 # 1. Create a hashmap (a dictionary) where key is character and value is count
@@ -214,3 +215,34 @@ def anagram_min_changes(s):
 anagram_tests = ['nop', 'xyyx', 'xaxbbbxx', 'fdhlvosfpafhalll']
 for test in anagram_tests:
     print(anagram_min_changes(test))
+
+
+# 6.4) Minimum Number of Manipulations required to make two Strings Anagram Without Deletion of Character
+
+# Similar to 6.3, but here we use Unicode codes
+def anagram_count_manipulations(s1, s2):
+    
+    # store count in a char array 
+    char_count = [0] * 25
+
+    count_manipulations = 0
+
+    # iterate through s1 and update count
+    for ch in s1:
+        # index is Unicode for that character rebased (since 'a' starts at 97)
+        index = ord(ch) - ord('a')
+        char_count[index] += 1
+
+    # iterate through s2 and update count
+    for ch in s2:
+        index = ord(ch) - ord('a')
+        char_count[index] -= 1
+
+        # if character not found, increase number of manipulations
+        if char_count[index] < 0:
+            count_manipulations += 1
+    
+    return count_manipulations
+
+print(anagram_count_manipulations('silent', 'listen'))
+print(anagram_count_manipulations('ddcf', 'cedk'))
