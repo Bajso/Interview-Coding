@@ -178,3 +178,39 @@ def are_anagrams_opt(s1, s2):
 
 print(are_anagrams_opt('silent', 'listen'))
 print(are_anagrams_opt('silent', 'cat'))
+
+
+# 6.3) Determine the minimum number of characters to change to make the two substrings into anagrams of one another
+def anagram_min_changes(s):
+
+    # if string length is not even it cannot be an anagram
+    str_len = len(s)
+    if not str_len % 2 == 0:
+        return -1
+
+    # split the string
+    str_len = int(str_len / 2)
+    s1 = s[:str_len]
+    s2 = s[str_len:]
+
+    # populate a dictionary
+    char_dict = dict()
+    for ch in s1:
+        # if exists return count, else 0 and increment it
+        char_dict[ch] = char_dict.get(ch, 0) + 1
+
+    # check which characters are present in the second string and increment number of changes required
+    tot_changes = 0
+    for ch in s2:
+        # if exist return count, else 0 and decrement it
+        count = char_dict.get(ch, 0) - 1
+        if count < 0:
+            tot_changes += 1
+        else:
+            char_dict[ch] = count
+
+    return tot_changes
+
+anagram_tests = ['nop', 'xyyx', 'xaxbbbxx', 'fdhlvosfpafhalll']
+for test in anagram_tests:
+    print(anagram_min_changes(test))
