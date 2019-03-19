@@ -56,18 +56,7 @@ def reverse_words(s):
 print(reverse_words(text))
 
 
-# 3.) Return missing and mutual values in two lists
-
-# Set is mutable and can only  contain unique values. Standard mathematical functions on sets can be applied
-def return_missing_mutual(full_list, partial_list):
-    missing_set = set(full_list) - set(partial_list)
-    mutual_set = set(full_list).intersection(partial_list)
-    return 'Missing: {}\nMutual: {}'.format(missing_set, mutual_set)
-
-print(return_missing_mutual([2,3,4,5,6,7,8,9], [2,4,5,7]))
-
-
-# 4.) Check whether a sting is balanced (parentheses matching)
+# 3.) Check whether a sting is balanced (parentheses matching)
 
 # Match every opening bracket to a closing one
 def check_balanced_string(s):
@@ -98,37 +87,9 @@ print(check_balanced_string('[()]{}{[()()]}'))
 print(check_balanced_string('[()]{}{[()[}'))
 
 
-# 5.) Maximum product of a triplet in an array (without sorting)
+# 4.) Check if two strings are anagrams
 
-# Input: [10, 3, 5, 6, 20]
-# Output: Multiplication of 10, 6 and 20 = 1200
-
-def max_product(arr):
-    
-    # Get first 3 elements and order them by size (required to avoid if checks)
-    subset = arr[0:3]
-    # First is largest, then second, then third
-    first = subset.pop(subset.index(max(subset)))
-    second = subset.pop(subset.index(max(subset)))
-    third = subset.pop()
-
-    for i in range(3, len(arr)):
-        # if larger than first: swap all
-        if arr[i] > first:
-            first, second, third = arr[i], first, second
-        elif arr[i] > second:
-            second, third = arr[i], second
-        elif arr[i] > third:
-            third = arr[i]
-
-    return first * second * third
-
-print(max_product([10, 3, 5, 6, 20]))
-
-
-# 6.) Check if two strings are anagrams
-
-# 6.1) Easiest way is to sort both and compare them
+# 4.1) Easiest way is to sort both and compare them
 # This is O(nlogn)
 def are_anagrams(s1, s2):
     if (sorted(s1) == sorted(s2)):
@@ -139,7 +100,7 @@ print(are_anagrams('silent', 'listen'))
 print(are_anagrams('silent', 'cat'))
 
 
-# 6.2) Improvement: Count the number of occurances of each character
+# 4.2) Improvement: Count the number of occurances of each character
 
 # 1. Create a hashmap (a dictionary) where key is character and value is count
 # 2. Iterate s1, populate the hashmap and increment the count for repeated characters
@@ -181,7 +142,7 @@ print(are_anagrams_opt('silent', 'listen'))
 print(are_anagrams_opt('silent', 'cat'))
 
 
-# 6.3) Determine the minimum number of characters to change to make the two substrings into anagrams of one another
+# 4.3) Determine the minimum number of characters to change to make the two substrings into anagrams of one another
 def anagram_min_changes(s):
 
     # if string length is not even it cannot be an anagram
@@ -217,9 +178,9 @@ for test in anagram_tests:
     print(anagram_min_changes(test))
 
 
-# 6.4) Minimum Number of Manipulations required to make two Strings Anagram Without Deletion of Character
+# 4.4) Minimum Number of Manipulations required to make two Strings Anagram Without Deletion of Character
 
-# Similar to 6.3, but here we use Unicode codes
+# Similar to 4.3, but here we use Unicode codes
 def anagram_count_manipulations(s1, s2):
     
     # store count in a char array 
@@ -246,3 +207,92 @@ def anagram_count_manipulations(s1, s2):
 
 print(anagram_count_manipulations('silent', 'listen'))
 print(anagram_count_manipulations('ddcf', 'cedk'))
+
+
+# 5.) Maximum consecutive repeating character in string
+
+# Input: 'geeekk'
+# Output: 'e'
+def maximum_repeating_char(s):
+
+    max_count = 1
+    count = 1
+    character = ''
+    for i in range(len(s) - 1):
+        if s[i] == s[i+1]:
+            count += 1
+            if count > max_count:
+                max_count = count
+                character = s[i]
+        else:
+            count = 1
+
+    return character, max_count
+
+print(maximum_repeating_char('aaaabbaaaccde'))
+
+
+# 6.) Is String a Palindrome
+
+# 6.1) Recursive solution
+def palindrome_rec(s):
+
+    # base case - if only one character or middle two are the same
+    if len(s) == 1 or (len(s) == 2 and s[0] == s[1]):
+        return True
+
+    # compare first and last recursively
+    if s[0] == s[-1]:
+        return palindrome_rec(s[1:-1])
+    
+    return False
+
+print(palindrome_rec('abcbdefdbcba'))
+
+
+# 6.2) Iterative solution
+def is_palindrome(s):
+
+    for i in range(len(s)//2):
+        if not s[i] == s[-(i+1)]:
+            return False
+        
+    return True
+
+print(is_palindrome('abbea'))
+
+
+# 7.) Remove all consecutive duplicates from string
+
+# Input: abaaccabbbb
+# Output: abacab
+
+def remove_consecutive_duplicates(s):
+
+    unique_str = s[0]
+    for i in range(len(s) - 1):
+        if not s[i] == s[i+1]:
+            unique_str += s[i+1]
+
+    return unique_str
+
+print(remove_consecutive_duplicates('abaaccabbbb'))
+
+
+# 8.) Remove all duplicates from string
+
+# Input: abaaccabbbb
+# Output: abc
+
+# Almost always the most efficient way is to use a HashMap implementation since operations are O(1) or O(n) in worst case
+def remove_duplicates(s):
+
+    char_dict = dict()
+    # populate character dict
+    for ch in s:
+        if ch not in char_dict.keys():
+            char_dict[ch] = 1
+
+    return ''.join(char_dict.keys())
+
+print(remove_duplicates('abaaccabbbb'))
