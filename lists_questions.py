@@ -36,3 +36,22 @@ def max_product(arr):
     return first * second * third
 
 print(max_product([10, 3, 5, 6, 20]))
+
+
+# 3.) Find k smallest items in an array
+
+# One option is to sort the array and pick k smallest, but best case this is O(nlogn) complexity
+
+# To solve it efficiently we can use a MaxHeap
+# 1. Create MaxHeap with k items - O(k)
+# 2. For every item p in array if p > MaxHeap.getMax() replace max with p - (n-k) * O(logk)
+# 3. Print all points from MaxHeap - O(k)
+
+import heapq
+
+def k_smallest_items(arr, k):
+    # use inbuilt heap function
+    return heapq.nlargest(3, arr)
+
+k_smallest_arr = [1,3,24,5,36,7,85,935,23,8,88]
+print(k_smallest_items(k_smallest_arr, 3))
