@@ -28,7 +28,7 @@ class DoublyLinkedList():
             self.head = new_node
             self.tail = new_node
         else:
-            new_node.next = head
+            new_node.next = self.head
             # Change previous of head to new node
             self.head.prev = new_node
             # Move the head to point to the new node
@@ -38,7 +38,7 @@ class DoublyLinkedList():
 
     def addLast(self, value):
         new_node = DListNode(value=value)
-        if self.size = 0:
+        if self.size == 0:
             self.head = new_node
             self.tail = new_node
         else:
@@ -64,13 +64,13 @@ class DoublyLinkedList():
             self.head.next.prev = None
             # Update head
             self.head = self.head.next
-            size -= 1
+            self.size -= 1
 
     def removeLast(self):
         if self.size != 0:
             self.tail.prev.next = None
             self.tail = self.tail.prev
-            size -= 1
+            self.size -= 1
 
     def removeNode(self, node):
 
@@ -81,5 +81,5 @@ class DoublyLinkedList():
         
         node.next = None
         node.prev = None
-        size -= 1
+        self.size -= 1
     
